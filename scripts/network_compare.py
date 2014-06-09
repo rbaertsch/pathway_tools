@@ -14,6 +14,7 @@ if __name__ == "__main__":
     parser.add_argument('--dst-spf', help="Dest SimplePathwayFile")
     parser.add_argument('--src-xgmml', help="Source XGMML File")
     parser.add_argument('--dst-xgmml', help="Dest XGMML File")
+    parser.add_argument('--common',help="Print common nodes")
 
     args = parser.parse_args()
 
@@ -47,6 +48,14 @@ if __name__ == "__main__":
     log("Node Counts %d %d" % (len(gr1.nodes()), len(gr2.nodes())))
     log("Edge Counts %d %d" % (len(gr1.edges()), len(gr2.edges())))
 
+
+    if args.common:
+        common_count = 0
+        for n in gr1.node:
+            if n in gr2.node:
+                common_count+=1
+                log("Common " +n)
+    log( "Nodes in both networks: %d %4.1f %% of first network and %4.1f %% of second " % (common_count, (float)(100*common_count/len(gr1.nodes())), (float)(100*common_count/len(gr2.nodes() ))))
     for n in gr1.node:
         if n not in gr2.node:
             log( "Graph2 Missing Node:" + n )
